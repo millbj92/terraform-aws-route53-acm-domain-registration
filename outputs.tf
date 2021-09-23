@@ -5,12 +5,7 @@ output "acm_certificate_arn" {
 
 output "domain_name" {
   description = "Your root domain name. Must be unique, and already registered."
-  value       = var.domain_name
-}
-
-output "preprod_env_prefixes" {
-  description = "Use these to register subdomains in Route53. Leave this empty if you don't want subdomains."
-  value       = var.preprod_env_prefixes
+  value       = var.hosted_zone
 }
 
 output "subject_alternative_name_prefixes" {

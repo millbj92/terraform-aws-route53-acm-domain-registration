@@ -4,22 +4,21 @@ provider "aws" {
 }
 
 locals {
-  default_certs             = var.use_default_domain ? ["default"] : []
-  acm_certs                 = var.use_default_domain ? [] : ["acm"]
-  domain_name               = var.use_default_domain ? [] : [var.domain_name]
-  joined_list               = concat(var.subject_alternative_name_prefixes, var.preprod_env_prefixes)
-  subject_alternative_names = var.use_default_domain ? formatlist("%s.${var.domain_name[0]}", local.joined_list) : []
+  default_certs = var.use_default_domain ? ["default"] : []
+  tags          = merge(var.tags, merge(var.tags_extended, { "info:environment" = var.environment }))
 }
 
 # This creates an SSL certificate
 resource "aws_acm_certificate" "domain_name" {
   count                     = var.use_default_domain ? 0 : 1
-  domain_name               = var.domain_name
-  subject_alternative_names = local.subject_alternative_names
+  domain_name               = var.hosted_zone
+  subject_alternative_names = formatlist("%s.${var.hosted_zone}", var.subject_alternative_name_prefixes)
   validation_method         = "DNS"
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = local.tags
 }
 
 data "aws_route53_zone" "domain_name" {
