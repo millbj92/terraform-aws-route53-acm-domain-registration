@@ -6,13 +6,25 @@ This module is used for the creation of ACM certificates, and verify them with t
  Example of 'acm_create_cert" module in `main.tf`.
 
  ```hcl
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "3.59.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.region
+}
+
 module "acm_route53_domain" {
-  source                            = "https://github.com/millbj92/terraform-route53-acm-domain-registration"
-  domain_name                       = "dev.example.com"
-  subject_alternative_name_prefixes = ["www", "*"]
-  hosted_zone                       = "example.com"
-  acm_certificate_domain            = "example.com"
-  preprod_env_prefixes              = ["dev", "stg"]
+  source                            = "millbj92/route53-acm-domain-registration/aws"
+  hosted_zone                       = var.hosted_zone
+  environment                       = var.environment
+  subject_alternative_name_prefixes = var.subject_alternative_name_prefixes
+  tags_extended                     = merge(var.tags_extended, { "info:time" = timestamp() })
 }
  ```
 
@@ -63,7 +75,6 @@ No modules.
 | <a name="input_subject_alternative_name_prefixes"></a> [subject\_alternative\_name\_prefixes](#input\_subject\_alternative\_name\_prefixes) | Alternative names for the domain. Wildcards mau be used. (*.example.com, etc) | `list(string)` | <pre>[<br>  "www",<br>  "*",<br>  "dev",<br>  "stg"<br>]</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to set on the resources. I recommend not modifying these. Instead, edit tags\_extended. | `map(string)` | <pre>{<br>  "info:moduleRepo": "https://github.com/millbj92/terraform-aws-route53-acm-domain-registration",<br>  "info:terraform": "true",<br>  "info:terraformModule": "millbj92/route53-acm-custom-domain/aws"<br>}</pre> | no |
 | <a name="input_tags_extended"></a> [tags\_extended](#input\_tags\_extended) | Extra tags to be set on your | `map(string)` | `{}` | no |
-| <a name="input_use_default_domain"></a> [use\_default\_domain](#input\_use\_default\_domain) | Use CloudFront website address without Route53 and ACM certificate | `string` | `false` | no |
 
 ## Outputs
 

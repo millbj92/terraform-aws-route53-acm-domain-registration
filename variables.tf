@@ -10,12 +10,6 @@ variable "subject_alternative_name_prefixes" {
   default     = ["www", "*", "dev", "stg"]
 }
 
-variable "use_default_domain" {
-  description = "Use CloudFront website address without Route53 and ACM certificate"
-  type        = string
-  default     = false
-}
-
 variable "hosted_zone" {
   description = "Route53 Hosted Zone"
   type        = string
