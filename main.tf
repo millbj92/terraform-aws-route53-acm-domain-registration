@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 locals {
-  tags = merge(var.tags, merge(var.tags_extended, { "info:environment" = var.environment }))
+  tags = merge(var.tags, merge(var.tags_extended, { "info:environment" = "DEV" }))
 }
 
 # This creates an SSL certificate

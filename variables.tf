@@ -1,8 +1,4 @@
 
-variable "environment" {
-  description = "Environment the resource(s) are being deployed on"
-  type        = string
-}
 
 variable "subject_alternative_name_prefixes" {
   description = "Alternative names for the domain. Wildcards mau be used. (*.example.com, etc)"

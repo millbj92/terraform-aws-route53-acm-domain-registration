@@ -1,7 +1,10 @@
 # ACM_SSL_Certification
 
-This module is used for the creation of ACM certificates, and verify them with the Route53 DNS.
- Usage:
+This module is used for the creation of ACM certificates, and verify them with the Route53 DNS. Plug in your domain name into the "hosted_zone" variable, and fill in the subject_alternative_name (SAN) prefixes array. These will be your subdomains. At the very least you probably want "www". The "*" should cover every subdomain, as it is a wildcard, but I prefer to be explicit about the subdomains I plan on creating.
+
+'tags_extended' is a good way to keeping a consistent tagging schema in your organization. Essentially, define all mandatory tags in another module, and use the tags_extended map to consume those with a merge(), and then add any they may also need. You can check out how I'm doing it in [main.tf](main.tf).
+
+### Usage:
 
  Example of 'acm_create_cert" module in `main.tf`.
 
@@ -21,9 +24,8 @@ provider "aws" {
 
 module "acm_route53_domain" {
   source                            = "millbj92/route53-acm-domain-registration/aws"
-  hosted_zone                       = var.hosted_zone
-  environment                       = var.environment
-  subject_alternative_name_prefixes = var.subject_alternative_name_prefixes
+  hosted_zone                       = "example.com"
+  subject_alternative_name_prefixes = ["www", "*", "dev", "stg"]
   tags_extended                     = merge(var.tags_extended, { "info:time" = timestamp() })
 }
  ```
@@ -70,7 +72,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_environment"></a> [environment](#input\_environment) | Environment the resource(s) are being deployed on | `string` | n/a | yes |
 | <a name="input_hosted_zone"></a> [hosted\_zone](#input\_hosted\_zone) | Route53 Hosted Zone | `string` | `null` | no |
 | <a name="input_subject_alternative_name_prefixes"></a> [subject\_alternative\_name\_prefixes](#input\_subject\_alternative\_name\_prefixes) | Alternative names for the domain. Wildcards mau be used. (*.example.com, etc) | `list(string)` | <pre>[<br>  "www",<br>  "*",<br>  "dev",<br>  "stg"<br>]</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to set on the resources. I recommend not modifying these. Instead, edit tags\_extended. | `map(string)` | <pre>{<br>  "info:moduleRepo": "https://github.com/millbj92/terraform-aws-route53-acm-domain-registration",<br>  "info:terraform": "true",<br>  "info:terraformModule": "millbj92/route53-acm-custom-domain/aws"<br>}</pre> | no |

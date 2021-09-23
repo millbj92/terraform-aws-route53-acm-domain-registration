@@ -15,7 +15,6 @@ provider "aws" {
 module "acm_route53_domain" {
   source                            = "./.."
   hosted_zone                       = var.hosted_zone
-  environment                       = var.environment
   subject_alternative_name_prefixes = var.subject_alternative_name_prefixes
   tags_extended                     = merge(var.tags_extended, { "info:time" = timestamp() })
 }
