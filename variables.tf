@@ -27,3 +27,4 @@ variable "tags_extended" {
   type        = map(string)
   default     = {}
 }
+
