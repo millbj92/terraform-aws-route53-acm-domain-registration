@@ -7,7 +7,7 @@ This module is used for the creation of ACM certificates, and verify them with t
 
  ```hcl
 module "acm_route53_domain" {
-  source                            = "https://github.com/millbj92/terraform-route53-acm-domain-registration
+  source                            = "https://github.com/millbj92/terraform-route53-acm-domain-registration"
   domain_name                       = "dev.example.com"
   subject_alternative_name_prefixes = ["www", "*"]
   hosted_zone                       = "example.com"
