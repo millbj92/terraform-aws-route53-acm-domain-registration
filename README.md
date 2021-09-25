@@ -72,16 +72,14 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_hosted_zone"></a> [hosted\_zone](#input\_hosted\_zone) | Route53 Hosted Zone | `string` | `null` | no |
-| <a name="input_subject_alternative_name_prefixes"></a> [subject\_alternative\_name\_prefixes](#input\_subject\_alternative\_name\_prefixes) | Alternative names for the domain. Wildcards mau be used. (*.example.com, etc) | `list(string)` | <pre>[<br>  "www",<br>  "*",<br>  "dev",<br>  "stg"<br>]</pre> | no |
+| <a name="input_hosted_zone"></a> [hosted\_zone](#input\_hosted\_zone) | Route53 Hosted Zone | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | AWS Region | `string` | n/a | yes |
+| <a name="input_subject_alternative_name_prefixes"></a> [subject\_alternative\_name\_prefixes](#input\_subject\_alternative\_name\_prefixes) | Alternative names for the domain. Wildcards may be used. (*.example.com, etc) | `list(string)` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to set on the resources. I recommend not modifying these. Instead, edit tags\_extended. | `map(string)` | <pre>{<br>  "info:moduleRepo": "https://github.com/millbj92/terraform-aws-route53-acm-domain-registration",<br>  "info:terraform": "true",<br>  "info:terraformModule": "millbj92/route53-acm-custom-domain/aws"<br>}</pre> | no |
-| <a name="input_tags_extended"></a> [tags\_extended](#input\_tags\_extended) | Extra tags to be set on your | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | <a name="output_acm_certificate_arn"></a> [acm\_certificate\_arn](#output\_acm\_certificate\_arn) | The domain name used by your cloudfront distribution. If you are using the 'default\_domain' variable, you would use this. |
-| <a name="output_domain_name"></a> [domain\_name](#output\_domain\_name) | Your root domain name. Must be unique, and already registered. |
-| <a name="output_subject_alternative_name_prefixes"></a> [subject\_alternative\_name\_prefixes](#output\_subject\_alternative\_name\_prefixes) | Alternative names for the domain. Wildcards mau be used. (*.example.com, etc) |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

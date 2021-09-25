@@ -1,27 +1,22 @@
 
-variable "region" {
-  description = "Your AWS region"
-  type        = string
-}
 
 variable "subject_alternative_name_prefixes" {
   description = "Alternative names for the domain. Wildcards may be used. (*.example.com, etc)"
   type        = list(string)
-  default     = ["www", "*", "dev", "stg"]
+  default     = ["www", "*", "*.dev", "*.stg"]
 }
 
-variable "use_default_domain" {
-  description = "Use CloudFront website address without Route53 and ACM certificate"
-  type        = string
-  default     = false
-}
 variable "hosted_zone" {
   description = "Route53 Hosted Zone"
   type        = string
 }
 
+variable "region" {
+  description = "region"
+  type        = string
+}
 
-variable "tags_extended" {
+variable "tags" {
   description = "Extra tags to be set on your "
   type        = map(string)
   default = {

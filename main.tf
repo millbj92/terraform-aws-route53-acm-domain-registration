@@ -1,28 +1,24 @@
-provider "aws" {
-  region = "us-east-1"
-  alias  = "aws_cloudfront"
-}
-
 locals {
-  tags = merge(var.tags, merge(var.tags_extended, { "info:environment" = "DEV" }))
-}
-
-# This creates an SSL certificate
-resource "aws_acm_certificate" "domain_name" {
-  domain_name               = var.hosted_zone
   subject_alternative_names = formatlist("%s.${var.hosted_zone}", var.subject_alternative_name_prefixes)
-  validation_method         = "DNS"
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  tags = local.tags
 }
 
 data "aws_route53_zone" "domain_name" {
   name         = var.hosted_zone
   private_zone = false
 }
+
+# This creates an SSL certificate
+resource "aws_acm_certificate" "domain_name" {
+  domain_name               = var.hosted_zone
+  subject_alternative_names = local.subject_alternative_names
+  validation_method         = "DNS"
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = var.tags
+}
+
 
 resource "aws_route53_record" "route53_records" {
   for_each = {

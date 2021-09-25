@@ -1,15 +1,19 @@
 
 
 variable "subject_alternative_name_prefixes" {
-  description = "Alternative names for the domain. Wildcards mau be used. (*.example.com, etc)"
+  description = "Alternative names for the domain. Wildcards may be used. (*.example.com, etc)"
   type        = list(string)
-  default     = ["www", "*", "dev", "stg"]
+  default     = null
 }
 
 variable "hosted_zone" {
   description = "Route53 Hosted Zone"
   type        = string
-  default     = null
+}
+
+variable "region" {
+  description = "AWS Region"
+  type        = string
 }
 
 variable "tags" {
@@ -21,10 +25,3 @@ variable "tags" {
     "info:moduleRepo"      = "https://github.com/millbj92/terraform-aws-route53-acm-domain-registration"
   }
 }
-
-variable "tags_extended" {
-  description = "Extra tags to be set on your "
-  type        = map(string)
-  default     = {}
-}
-
